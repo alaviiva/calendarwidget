@@ -13,16 +13,16 @@ import android.content.ContentResolver;
 import android.util.Log;
 
 
-public class CalenrarReader {
-    private static final String[] INSTANCE_PROJECTION = new String[] {
+public class CalendarReader {
+    public static final String[] INSTANCE_PROJECTION = new String[] {
             Instances.EVENT_ID,      // 0
             Instances.BEGIN,         // 1
             Instances.TITLE          // 2
     };
     // The indices for the projection array above.
-    private static final int PROJECTION_ID_INDEX = 0;
-    private static final int PROJECTION_BEGIN_INDEX = 1;
-    private static final int PROJECTION_TITLE_INDEX = 2;
+    public static final int PROJECTION_ID_INDEX = 0;
+    public static final int PROJECTION_BEGIN_INDEX = 1;
+    public static final int PROJECTION_TITLE_INDEX = 2;
 
 
     public Cursor read(Context context) {
