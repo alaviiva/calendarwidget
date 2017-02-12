@@ -6,9 +6,11 @@ import android.content.Context;
 
 
 public class CalendarWidgetProvider extends AppWidgetProvider {
+    private final CalenrarReader cr = new CalenrarReader();
 
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        int a = 0;
+        cr.read(context);
+
     }
 
 }
