@@ -3,36 +3,27 @@ package alaviiva.calendarwidget;
 import android.appwidget.AppWidgetProvider;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
-import android.database.Cursor;
-import android.util.Log;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import android.content.Intent;
+import android.net.Uri;
+import android.widget.RemoteViews;
 
 
 public class CalendarWidgetProvider extends AppWidgetProvider {
-    private final CalendarReader cr = new CalendarReader();
 
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        Cursor cur = cr.read(context);
-        String msg = "";
 
-        while (cur.moveToNext()) {
-            String title = null;
-            long beginVal = 0;
+        for (int i = 0; i < appWidgetIds.length; i++) {
+            Intent in = new Intent(context, CalendarWidgetService.class);
+            in.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[i]);
+            in.setData(Uri.parse(in.toUri(Intent.URI_INTENT_SCHEME)));
 
-            beginVal = cur.getLong(CalendarReader.PROJECTION_BEGIN_INDEX);
-            title = cur.getString(CalendarReader.PROJECTION_TITLE_INDEX);
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(beginVal);
-            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-            msg += formatter.format(calendar.getTime());
-            msg += "\n" + title + "\n";
+            RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.calendarwidget);
+            rv.setRemoteAdapter(R.id.listv, in);
+            rv.setEmptyView(R.id.listv, R.id.calendaritem);
+
+            appWidgetManager.updateAppWidget(appWidgetIds[i], rv);
         }
-        Log.d("calendar", msg);
-        //View.findViewById(R.id.twiew).setText(msg);
-
+        super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
 
 }

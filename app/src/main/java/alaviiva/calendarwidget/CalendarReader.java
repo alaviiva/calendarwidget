@@ -1,8 +1,6 @@
 package alaviiva.calendarwidget;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.text.DateFormat;
 
 import android.content.ContentUris;
 import android.content.Context;
@@ -10,7 +8,6 @@ import android.net.Uri;
 import android.provider.CalendarContract.Instances;
 import android.database.Cursor;
 import android.content.ContentResolver;
-import android.util.Log;
 
 
 public class CalendarReader {
@@ -25,7 +22,7 @@ public class CalendarReader {
     public static final int PROJECTION_TITLE_INDEX = 2;
 
 
-    public Cursor read(Context context) {
+    public static Cursor read(Context context) {
 
         Calendar beginTime = Calendar.getInstance();
         long beginms = beginTime.getTimeInMillis();
