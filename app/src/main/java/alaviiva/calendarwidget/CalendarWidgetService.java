@@ -33,18 +33,17 @@ class CalendarViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public void onCreate() {
-        cur = CalendarReader.read(context);
+        onDataSetChanged();
+    }
 
+    @Override
+    public void onDataSetChanged() {
+        cur = CalendarReader.read(context);
     }
 
     @Override
     public int getCount() {
         return cur.getCount();
-    }
-
-    @Override
-    public void onDataSetChanged() {
-
     }
 
     @Override
@@ -69,7 +68,8 @@ class CalendarViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        cur.moveToPosition(position);
+        return cur.getLong(CalendarReader.PROJECTION_ID_INDEX);
     }
 
     @Override
@@ -81,8 +81,6 @@ class CalendarViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     public boolean hasStableIds() {
         return false;
     }
-
-
 
     @Override
     public void onDestroy() {

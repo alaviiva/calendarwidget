@@ -1,11 +1,18 @@
 package alaviiva.calendarwidget;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetProvider;
 import android.appwidget.AppWidgetManager;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.provider.CalendarContract;
 import android.widget.RemoteViews;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 
 public class CalendarWidgetProvider extends AppWidgetProvider {
@@ -20,6 +27,22 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
             RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.calendarwidget);
             rv.setRemoteAdapter(R.id.listv, in);
             rv.setEmptyView(R.id.listv, R.id.calendaritem);
+
+
+            // update date
+            Calendar calendar = Calendar.getInstance();
+            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            rv.setTextViewText(R.id.buttn, formatter.format(calendar.getTime()));
+
+            // clicking date opens calendar
+            Uri.Builder builder = CalendarContract.CONTENT_URI.buildUpon();
+            builder.appendPath("time");
+            ContentUris.appendId(builder, calendar.getTimeInMillis());
+            Intent calendarIn = new Intent();
+            calendarIn.setAction(Intent.ACTION_VIEW);
+            calendarIn.setData(builder.build());
+            PendingIntent pendingCalendar = PendingIntent.getActivity(context, 0, calendarIn, 0);
+            rv.setOnClickPendingIntent(R.id.buttn, pendingCalendar);
 
             appWidgetManager.updateAppWidget(appWidgetIds[i], rv);
         }
