@@ -26,8 +26,6 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
 
             RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.calendarwidget);
             rv.setRemoteAdapter(R.id.listv, in);
-            rv.setEmptyView(R.id.listv, R.id.calendaritem);
-
 
             // update date
             Calendar calendar = Calendar.getInstance();
@@ -43,6 +41,12 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
             calendarIn.setData(builder.build());
             PendingIntent pendingCalendar = PendingIntent.getActivity(context, 0, calendarIn, 0);
             rv.setOnClickPendingIntent(R.id.buttn, pendingCalendar);
+
+            // clicking event opens calendar
+            Intent eventIn = new Intent();
+            eventIn.setAction(Intent.ACTION_VIEW);
+            PendingIntent pendingEvent = PendingIntent.getActivity(context, 0, eventIn, 0);
+            rv.setPendingIntentTemplate(R.id.listv, pendingEvent);
 
             appWidgetManager.updateAppWidget(appWidgetIds[i], rv);
         }

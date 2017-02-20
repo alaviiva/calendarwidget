@@ -2,9 +2,12 @@ package alaviiva.calendarwidget;
 
 
 import android.appwidget.AppWidgetManager;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
+import android.provider.CalendarContract;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -27,8 +30,8 @@ class CalendarViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     public CalendarViewsFactory(Context con, Intent in) {
         context = con;
-        appWidgetId = in.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager
-                .INVALID_APPWIDGET_ID);
+        appWidgetId = in.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
+                AppWidgetManager.INVALID_APPWIDGET_ID);
     }
 
     @Override
@@ -56,12 +59,21 @@ class CalendarViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.calendar_item);
         cur.moveToPosition(position);
 
+        // date
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(cur.getLong(CalendarReader.PROJECTION_BEGIN_INDEX));
         DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         rv.setTextViewText(R.id.date, formatter.format(calendar.getTime()));
 
+        // event name
         rv.setTextViewText(R.id.event, cur.getString(CalendarReader.PROJECTION_TITLE_INDEX));
+
+        // intent to open calendar
+        Intent fillIn = new Intent();
+        Uri uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI,
+                getItemId(position));
+        fillIn.setData(uri);
+        rv.setOnClickFillInIntent(R.id.calendaritem, fillIn);
 
         return rv;
     }
