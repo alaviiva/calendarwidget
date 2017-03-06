@@ -62,7 +62,7 @@ class CalendarViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         // date
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(cur.getLong(CalendarReader.PROJECTION_BEGIN_INDEX));
-        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        DateFormat formatter = new SimpleDateFormat("dd.MM HH:mm");
         rv.setTextViewText(R.id.date, formatter.format(calendar.getTime()));
 
         // event name
@@ -91,7 +91,7 @@ class CalendarViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public boolean hasStableIds() {
-        return false;
+        return true;
     }
 
     @Override

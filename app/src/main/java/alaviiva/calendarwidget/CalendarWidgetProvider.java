@@ -19,6 +19,7 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
 
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 
+
         for (int i = 0; i < appWidgetIds.length; i++) {
             Intent in = new Intent(context, CalendarWidgetService.class);
             in.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[i]);
@@ -29,7 +30,7 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
 
             // update date
             Calendar calendar = Calendar.getInstance();
-            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
             rv.setTextViewText(R.id.buttn, formatter.format(calendar.getTime()));
 
             // clicking date opens calendar
