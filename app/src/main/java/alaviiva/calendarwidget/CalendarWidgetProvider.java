@@ -19,6 +19,7 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
 
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 
+        CalendarViewsFactory.update();
 
         for (int i = 0; i < appWidgetIds.length; i++) {
             Intent in = new Intent(context, CalendarWidgetService.class);

@@ -24,9 +24,15 @@ public class CalendarWidgetService extends RemoteViewsService {
 }
 
 class CalendarViewsFactory implements RemoteViewsService.RemoteViewsFactory {
-    private Context context;
+    private static Context context;
     private int appWidgetId;
-    private Cursor cur;
+    private static Cursor cur;
+
+    public static void update() {
+        if (context != null) {
+            cur = CalendarReader.read(context);
+        }
+    }
 
     public CalendarViewsFactory(Context con, Intent in) {
         context = con;
