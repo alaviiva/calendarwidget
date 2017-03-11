@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.CalendarContract;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 import java.text.DateFormat;
@@ -20,6 +21,7 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 
         CalendarViewsFactory.update();
+        Log.d("calendar", "Updating widget");
 
         for (int i = 0; i < appWidgetIds.length; i++) {
             Intent in = new Intent(context, CalendarWidgetService.class);

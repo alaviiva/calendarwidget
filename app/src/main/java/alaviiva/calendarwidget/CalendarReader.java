@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.provider.CalendarContract.Instances;
 import android.database.Cursor;
 import android.content.ContentResolver;
+import android.util.Log;
 
 
 public class CalendarReader {
@@ -24,11 +25,18 @@ public class CalendarReader {
 
     public static Cursor read(Context context) {
 
+        Log.d("calendar", "reading calendar");
+
         Calendar beginTime = Calendar.getInstance();
         long beginms = beginTime.getTimeInMillis();
+
+        Log.d("calendar", "start date " + beginTime.getTime());
+
         Calendar endTime = Calendar.getInstance();
         endTime.roll(Calendar.MONTH, 1);
         long endms = endTime.getTimeInMillis();
+
+        Log.d("calendar", "end date " + endTime.getTime());
 
         Cursor cur = null;
         ContentResolver cr = context.getContentResolver();
@@ -38,6 +46,8 @@ public class CalendarReader {
         ContentUris.appendId(builder, endms);
 
         cur = cr.query(builder.build(), INSTANCE_PROJECTION, null, null, Instances.BEGIN);
+
+        Log.d("calendar", "events in calendar " + cur.getCount());
 
         return cur;
         /*
