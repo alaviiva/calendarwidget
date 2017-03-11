@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CalendarContract;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -30,6 +31,7 @@ class CalendarViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     public static void update() {
         if (context != null) {
+            Log.d("calendar", "calendar manual update");
             cur = CalendarReader.read(context);
         }
     }
